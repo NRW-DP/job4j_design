@@ -6,7 +6,7 @@ package ru.job4j.laboratory;
  * info2  - Integer
  * Параметр T в угловых скобках называется универсальным параметром, так как вместо него можно подставить любой тип
  */
-public class ParameterizedTypeGenerics {
+public class ParameterizedTypeGenericsPartOne {
     public static void main(String[] args) {
         Info<String> info = new Info<>("privet");
         System.out.println(info);
