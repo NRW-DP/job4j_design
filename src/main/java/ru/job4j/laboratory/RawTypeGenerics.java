@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RawTypeGenerics {
-    /*
+    /**
         В этом классе описывается сырой тип - Raw Type, так как лист непараметризированный то он содержит Object
         (потому в цикле for перебераем тип Object)
         и для того что бы получить длинну слов нужно кастить list к String
@@ -23,13 +23,15 @@ public class RawTypeGenerics {
      */
     public static void main(String[] args) {
         List list = new ArrayList();
-        // указываем тип List<String> list = new ArrayList<>();
+
+        /*
+         указываем тип List<String> list = new ArrayList<>();
+         */
         list.add("privet");
         list.add("poka");
         list.add("ok");
         list.add("ne ok");
-//        list.add(8);
-//        list.add(new Car());
+
         for (Object o : list) {
             System.out.println(o + " - > dlina " + ((String) o).length());
         }
