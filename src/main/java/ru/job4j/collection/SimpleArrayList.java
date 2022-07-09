@@ -1,21 +1,20 @@
 package ru.job4j.collection;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleArrayList<T> implements SimpleList<T> {
     private T[] container;
-
     private int size;
-
     private int modCount;
 
     public SimpleArrayList(int capacity) {
         this.container = (T[]) new Object[capacity];
     }
 
-    public void resizeArray() {
+    private void resizeArray() {
         if (container.length == size) {
             Object[] newArray = new Object[container.length * 2];
             System.arraycopy(container, 0, newArray, 0, size);
@@ -25,22 +24,24 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public void add(T value) {
+        modCount++;
         resizeArray();
-        container[size] = value;
-        size++;
+        container[size++] = value;
     }
 
     @Override
     public T set(int index, T newValue) {
         Objects.checkIndex(index, size);
+        T rsl = get(index);
         container[index] = newValue;
-        return newValue;
+        return rsl;
     }
 
     @Override
     public T remove(int index) {
+        modCount++;
         Objects.checkIndex(index, size);
-        T removeElement = container[index];
+        T removeElement = get(index);
         System.arraycopy(container, index + 1, container, index, size - index - 1);
         size--;
         return removeElement;
@@ -59,18 +60,25 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
+            private int cursor;
+            private int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
-                return false;
+                return cursor < size;
             }
 
             @Override
             public T next() {
-                return null;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                return container[cursor++];
             }
-
         };
     }
 }
