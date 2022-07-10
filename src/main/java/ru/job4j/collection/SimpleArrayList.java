@@ -15,6 +15,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         if (container.length == size && container.length != 0) {
             container = Arrays.copyOf(container, container.length * 2);
         }
+        if (container.length == size && container.length == 0) {
+            container = Arrays.copyOf(container, container.length + 10);
+        }
     }
 
     @Override
