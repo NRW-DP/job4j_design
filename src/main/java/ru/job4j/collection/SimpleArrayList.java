@@ -1,9 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class SimpleArrayList<T> implements SimpleList<T> {
     private T[] container;
@@ -15,10 +12,8 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     }
 
     private void resizeArray() {
-        if (container.length == size) {
-            Object[] newArray = new Object[container.length * 2];
-            System.arraycopy(container, 0, newArray, 0, size);
-            container = (T[]) newArray;
+        if (container.length == size && container.length != 0) {
+            container = Arrays.copyOf(container, container.length * 2);
         }
     }
 
@@ -31,7 +26,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, size);
         T rsl = get(index);
         container[index] = newValue;
         return rsl;
@@ -40,9 +34,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     @Override
     public T remove(int index) {
         modCount++;
-        Objects.checkIndex(index, size);
         T removeElement = get(index);
         System.arraycopy(container, index + 1, container, index, size - index - 1);
+        container[container.length - 1] = null;
         size--;
         return removeElement;
     }
@@ -66,6 +60,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
             @Override
             public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return cursor < size;
             }
 
@@ -73,9 +70,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
             public T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                }
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
                 }
                 return container[cursor++];
             }
