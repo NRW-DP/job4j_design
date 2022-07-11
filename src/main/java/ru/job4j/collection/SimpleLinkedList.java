@@ -57,7 +57,6 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 }
                 E rsl = node.item;
                 node = node.next;
-                cursor++;
                 return rsl;
             }
         };
