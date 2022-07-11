@@ -38,7 +38,6 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<>() {
-            private int cursor;
             private int expectedModCount = modCount;
             private Node<E> node = first;
 
