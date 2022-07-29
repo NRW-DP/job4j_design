@@ -1,37 +1,12 @@
 package ru.job4j.collection;
 
 import static org.assertj.core.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class ForwardLinkedTest {
     private ForwardLinked<Integer> linked;
-
-    @Test(expected = NoSuchElementException.class)
-    public void whenDeleteFirst() {
-        ForwardLinked<Integer> linked = new ForwardLinked<>();
-        linked.add(1);
-        linked.deleteFirst();
-        linked.iterator().next();
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void whenDeleteEmptyLinked() {
-        ForwardLinked<Integer> linked = new ForwardLinked<>();
-        linked.deleteFirst();
-    }
-
-    @Test
-    public void whenMultiDelete() {
-       ForwardLinked<Integer> linked = new ForwardLinked<>();
-        linked.add(1);
-        linked.add(2);
-        assertThat(linked.deleteFirst(), is(1));
-        Iterator<Integer> it = linked.iterator();
-        assertThat(it.next(), is(2));
-    }
 
     @BeforeEach
     public void init() {
@@ -50,7 +25,7 @@ public class ForwardLinkedTest {
     }
 
     @Test
-   public void whenAddAndRevertTrue() {
+    public void whenAddAndRevertTrue() {
         linked.add(1);
         linked.add(2);
         linked.add(3);
@@ -59,6 +34,4 @@ public class ForwardLinkedTest {
         assertThat(linked.revert()).isTrue();
         assertThat(linked).containsSequence(4, 3, 2, 1);
     }
-
-
 }
