@@ -3,6 +3,7 @@ package ru.job4j.set;
 import ru.job4j.collection.SimpleArrayList;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Класс описывает реализацию коллекции Set на основе динамического массива
@@ -37,7 +38,7 @@ public class SimpleSet<T> implements Set<T> {
     public boolean contains(T value) {
         boolean check = false;
         for (T x : set) {
-            if (x == value) {
+            if (Objects.equals(x, value)) {
                 check = true;
                 break;
             }
