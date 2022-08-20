@@ -26,9 +26,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
             modCount = 0;
         }
         boolean rls = false;
-        int h = key.hashCode();
-        int hash = key == null ? 0 : hash(h);
-        int i = indexFor(hash);
+        int i = checkKey(key);
         if (table[i] == null) {
             table[i] = new MapEntry<>(key, value);
             count++;
@@ -56,6 +54,16 @@ public class SimpleMap<K, V> implements Map<K, V> {
      */
     private int indexFor(int hash) {
         return hash & (table.length - 1);
+    }
+
+    /**
+     * Метод проверяет значение ключа на null
+     *
+     * @param key ключ
+     * @return 0 или значение индекса таблицы
+     */
+    private int checkKey(K key) {
+        return key == null ? 0 : indexFor(hash(key.hashCode()));
     }
 
     /**
@@ -105,9 +113,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        return new Iterator<K>() {
-             int cursor = 0;
-             int  number = modCount;
+        return new Iterator<>() {
+            int cursor = 0;
+            int number = modCount;
 
 
             @Override
@@ -142,24 +150,5 @@ public class SimpleMap<K, V> implements Map<K, V> {
             this.value = value;
         }
 
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SimpleMap<?, ?> simpleMap = (SimpleMap<?, ?>) o;
-        return capacity == simpleMap.capacity && count == simpleMap.count && modCount == simpleMap.modCount && Arrays.equals(table, simpleMap.table);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(capacity, count, modCount);
-        result = 31 * result + Arrays.hashCode(table);
-        return result;
     }
 }
