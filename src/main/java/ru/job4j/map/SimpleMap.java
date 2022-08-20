@@ -20,7 +20,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
  */
     @Override
     public boolean put(K key, V value) {
-        if ((float) count / (float) capacity >= LOAD_FACTOR) {
+        if ((float) count / capacity >= LOAD_FACTOR) {
             expand();
             count = 0;
             modCount = 0;
@@ -87,7 +87,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        int index = key == null ? 0 : indexFor(hash(key.hashCode()));
+        int index = checkKey(key);
         if (table[index] != null
                 && (key == null
                 || key.equals(table[index].key))) {
@@ -96,17 +96,26 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return null;
     }
 
+    /**
+     * Метод удаляет значение по ключу.
+     * Определяем индекс по ключу.
+     * Если ячейка !null и ключи равны по equals(),
+     * тогда удаляем значение, иначе false.
+     *
+     * @param key ключ
+     * @return true, если удалил
+     */
     @Override
     public boolean remove(K key) {
         boolean rls = false;
-        int index = key == null ? 0 : indexFor(hash(key.hashCode()));
+        int index = checkKey(key);
         if (table[index] != null
                 && (key == null
                 || key.equals(table[index].key))) {
             table[index] = null;
             rls = true;
             count--;
-            modCount--;
+            modCount++;
         }
         return rls;
     }
@@ -126,7 +135,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 while (table.length > cursor && table[cursor] == null) {
                     cursor++;
                 }
-                return table.length > cursor && table[cursor] != null;
+                return table.length > cursor;
             }
 
             @Override
