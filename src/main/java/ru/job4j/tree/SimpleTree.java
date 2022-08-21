@@ -26,13 +26,11 @@ public class SimpleTree<E> implements Tree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        boolean rsl;
         Optional<Node<E>> pNode = findBy(parent);
-        if (pNode.isEmpty() || findBy(child).isPresent()) {
-            return false;
-        }
-        pNode.get().children.add(new Node<>(child));
-        rsl = true;
+        boolean rsl = pNode.isPresent() && findBy(child).isEmpty();
+           if (rsl) {
+               pNode.get().children.add(new Node<>(child));
+           }
         return rsl;
     }
 
