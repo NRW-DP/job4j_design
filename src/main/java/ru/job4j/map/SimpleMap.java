@@ -11,30 +11,28 @@ import java.util.*;
 public class SimpleMap<K, V> implements Map<K, V> {
 
     private static final float LOAD_FACTOR = 0.75f;
-    private int capacity = 8;
+    private final int capacity = 8;
     private int count = 0;
     private int modCount = 0;
     private MapEntry<K, V>[] table = new MapEntry[capacity];
 /**
 
  */
-    @Override
-    public boolean put(K key, V value) {
-        if ((float) count / capacity >= LOAD_FACTOR) {
-            expand();
-            count = 0;
-            modCount = 0;
-        }
-        boolean rls = false;
-        int i = checkKey(key);
-        if (table[i] == null) {
-            table[i] = new MapEntry<>(key, value);
-            count++;
-            modCount++;
-            rls = true;
-        }
-        return rls;
+@Override
+public boolean put(K key, V value) {
+    if ((float) count / capacity >= LOAD_FACTOR) {
+        expand();
     }
+    boolean rls = false;
+    int i = checkKey(key);
+    if (table[i] == null) {
+        table[i] = new MapEntry<>(key, value);
+        count++;
+        modCount++;
+        rls = true;
+    }
+    return rls;
+}
 
     /**
      * Метод реализует хэш-функцию
@@ -75,8 +73,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
      */
     private void expand() {
         MapEntry<K, V>[] tmp = table;
-        capacity *= 2;
-        table = new MapEntry[capacity];
+        table = new MapEntry[capacity * 2];
+        count = 0;
         for (MapEntry<K, V> el : tmp) {
             if (el != null) {
                 put(el.key, el.value);
@@ -87,13 +85,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
+        V rsl = null;
         int index = checkKey(key);
-        if (table[index] != null
-                && key.hashCode() == table[index].key.hashCode()
-                && key.equals(table[index].key)) {
-            return table[index].value;
+        boolean mapEntryValidate = false;
+        if (key == null) {
+            rsl = table[0].key == null ? table[0].value : null;
+        } else {
+            mapEntryValidate = (table[index] != null) && (table[index].key != null);
         }
-        return null;
+        if (mapEntryValidate && table[index].key.hashCode() == key.hashCode() && table[index].key.equals(key)) {
+            rsl = table[index].value;
+        }
+        return rsl;
     }
 
     /**
@@ -107,24 +110,29 @@ public class SimpleMap<K, V> implements Map<K, V> {
      */
     @Override
     public boolean remove(K key) {
-        boolean rls = false;
+        boolean rsl = false;
         int index = checkKey(key);
-        if (table[index] != null
-                && key.hashCode() == table[index].key.hashCode()
-                && key.equals(table[index].key)) {
+        boolean indexValidate = false;
+        if (key == null) {
+            table[0] = table[0].key == null ? null : table[0];
+            rsl = table[0] == null;
+            modCount++;
+        } else {
+            indexValidate = (table[index] != null) && (table[index].key != null);
+        }
+        if (indexValidate && table[index].key.hashCode() == key.hashCode() && table[index].key.equals(key)) {
             table[index] = null;
-            rls = true;
-            count--;
+            rsl = true;
             modCount++;
         }
-        return rls;
+        return rsl;
     }
 
     @Override
     public Iterator<K> iterator() {
         return new Iterator<>() {
             int cursor = 0;
-            int number = modCount;
+            final int number = modCount;
 
 
             @Override
