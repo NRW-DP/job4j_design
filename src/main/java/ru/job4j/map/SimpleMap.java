@@ -11,7 +11,7 @@ import java.util.*;
 public class SimpleMap<K, V> implements Map<K, V> {
 
     private static final float LOAD_FACTOR = 0.75f;
-    private final int capacity = 8;
+    private int capacity = 8;
     private int count = 0;
     private int modCount = 0;
     private MapEntry<K, V>[] table = new MapEntry[capacity];
@@ -74,6 +74,7 @@ public boolean put(K key, V value) {
     private void expand() {
         MapEntry<K, V>[] tmp = table;
         table = new MapEntry[capacity * 2];
+        capacity *= 2;
         count = 0;
         for (MapEntry<K, V> el : tmp) {
             if (el != null) {
