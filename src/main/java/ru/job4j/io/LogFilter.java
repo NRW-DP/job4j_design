@@ -23,7 +23,7 @@ public class LogFilter {
         LogFilter logFilter = new LogFilter();
         List<String> log = logFilter.filter("log.txt");
         for (String i : log) {
-            System.out.println(log);
+            System.out.println(i);
         }
     }
 }
