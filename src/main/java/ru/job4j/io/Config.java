@@ -20,7 +20,7 @@ public class Config {
             bufferedReader.lines().forEach(s -> {
                         if (!s.trim().startsWith("#") && !s.isBlank()) {
                             String[] line = s.split("=", 2);
-                            if (line.length != 2 || line[0].isEmpty()) {
+                            if (line.length != 2 || line[0].isEmpty() || line[1].isEmpty()) {
                                 throw new IllegalArgumentException("Отсутсвует ключ или значение : " + s);
                             }
                             values.put(line[0], line[1]);
