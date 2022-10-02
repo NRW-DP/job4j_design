@@ -9,17 +9,33 @@ import java.util.StringJoiner;
 
 public class Config {
     private final String path;
-    private final Map<String, String> values = new HashMap<String, String>();
+    private final Map<String, String> values = new HashMap<>();
 
     public Config(final String path) {
         this.path = path;
     }
 
     public void load() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(this.path))) {
+            bufferedReader.lines().forEach(s -> {
+                        if (!s.trim().startsWith("#") && !s.isBlank()) {
+                            String[] line = s.split("=", 2);
+                            if (line.length != 2 || line[0].isEmpty()) {
+                                throw new IllegalArgumentException("Отсутсвует ключ или значение : " + s);
+                            }
+                            values.put(line[0], line[1]);
+                        }
+                    }
+            );
+
+        } catch (IOException e) {
+            System.out.println("Ошибка при выводе данных из файла!");
+            e.printStackTrace();
+        }
     }
 
     public String value(String key) {
-        throw new UnsupportedOperationException("Don't impl this method yet!");
+        return values.get(key);
     }
 
     @Override
@@ -35,6 +51,6 @@ public class Config {
 
     public static void main(String[] args) {
         System.out.println(new Config("app.properties"));
-    }
 
+    }
 }
