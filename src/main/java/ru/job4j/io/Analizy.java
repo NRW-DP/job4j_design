@@ -5,23 +5,21 @@ import java.io.*;
 public class Analizy {
     public void unavailable(String source, String target) {
         try (BufferedReader read = new BufferedReader(new FileReader(source));
-             PrintWriter write = new PrintWriter(new FileOutputStream(target))) {
+             PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
+            boolean startWrite = false;
             String line;
-            boolean marker = false;
             while ((line = read.readLine()) != null) {
-                if (line.contains("400") || line.contains("500")) {
-                    if (!marker) {
-                        String[] in = line.split(" ");
-                        write.print(in[1] + ";");
-                        marker = true;
-                    }
-                } else if (marker) {
-                    String[] in = line.split(" ");
-                    write.println(in[1] + ";");
-                    marker = false;
+                String[] arr = line.split(" ", 2);
+                boolean isAvailable = Integer.parseInt(arr[0]) < 400;
+                if (!isAvailable == !startWrite) {
+                    startWrite = !startWrite;
+                    out.append(arr[1])
+                            .append(';')
+                            .append((startWrite ? "" : System.lineSeparator()));
                 }
+
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
