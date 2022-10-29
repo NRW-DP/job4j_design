@@ -21,7 +21,10 @@ public class Search {
 
     public static void validate(String[] validateArg) {
         Path path = Paths.get(validateArg[0]);
-        if (!Files.exists(path) && Files.isDirectory(path)) {
+        if (!Files.exists(path)) {
+            throw new IllegalArgumentException("File doesn't exist");
+        }
+        if (!Files.isDirectory(path)) {
             throw new IllegalArgumentException("Invalid directory path.");
         }
         if (!validateArg[1].startsWith(".")) {
