@@ -1,9 +1,7 @@
 package ru.job4j.io;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /*
  * Принимает массив аргументов который передает в карту и разбивает на ключ / значение;
@@ -21,11 +19,24 @@ public class ArgsName {
         return values.get(key);
     }
 
-    private void checkString(String s) throws IllegalArgumentException {
-        if (Pattern.matches("-\\w++=+\\S+", s)) {
-            return;
+    private void checkString(String line) {
+        if (!line.contains("=")) {
+            throw new IllegalArgumentException(
+                    String.format("this name: %s does not contain the symbol \"=\"", line));
         }
-        throw new IllegalArgumentException("Enter the correct value");
+        if (!line.startsWith("-")) {
+            throw new IllegalArgumentException(
+                    String.format("this name: %s does not start with the symbol \"-\"", line));
+        }
+        if (line.startsWith("-=")) {
+            throw new IllegalArgumentException(
+                    String.format("this name: %s contain kay ", line)
+            );
+        }
+        if (line.indexOf("=") == line.length() - 1) {
+            throw new IllegalArgumentException(
+                    String.format("this name: %s does not contain a value", line));
+        }
     }
 
     /*
@@ -33,11 +44,12 @@ public class ArgsName {
      * @values - объект Map в который передаем значения из массива
      */
     private void parse(String[] args) {
-        Arrays.stream(args)
-                .peek(this::checkString)
-                .map(s -> s.split("=", 2))
-                .peek(strings -> strings[0] = strings[0].split("-", 2)[1])
-                .forEach(s -> values.putIfAbsent(s[0], s[1]));
+        for (String line : args) {
+            checkString(line);
+            String[] strings = line.split("=", 2);
+            strings[0] = strings[0].split("-", 2)[1];
+            values.putIfAbsent(strings[0], strings[1]);
+        }
     }
 
     /*
