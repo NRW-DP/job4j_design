@@ -9,7 +9,7 @@ import java.util.zip.*;
 
 public class Zip {
 
-    public void packFiles(List<Path> sources, File target) throws IOException {
+    public void packFiles(List<Path> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             for (Path path : sources) {
                 zip.putNextEntry(new ZipEntry(path.toFile().getPath()));
@@ -17,6 +17,8 @@ public class Zip {
                     zip.write(out.readAllBytes());
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
