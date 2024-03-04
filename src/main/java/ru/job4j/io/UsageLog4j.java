@@ -1,5 +1,4 @@
 package ru.job4j.io;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
