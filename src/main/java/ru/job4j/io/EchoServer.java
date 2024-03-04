@@ -29,7 +29,7 @@ public class EchoServer {
                     String message = input.readLine();
                     String queryString = message.split("\\s")[1].split("\\?")[1];
                     Map<String, String> params = parse(queryString);
-                    if ("Bye".equals(params.get("msg"))) {
+                    if ("Exit".equals(params.get("msg"))) {
                         server.close();
                     }
 
