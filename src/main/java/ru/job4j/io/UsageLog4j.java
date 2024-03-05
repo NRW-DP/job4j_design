@@ -13,5 +13,17 @@ public class UsageLog4j {
         LOG.info("info message");
         LOG.warn("warn message");
         LOG.error("error message");
+
+        byte byteVariable = 1;
+        short shortVariable = 2;
+        int  intVariable = 3;
+        long longVariable = 4L;
+        float floatVariable = 5.0F;
+        double doubleVariable = 6.0;
+        char charVariable = '7';
+        boolean booleanVariable = true;
+
+        LOG.debug("Info : {}, {}, {}, {}, {}, {}, {}, {}", byteVariable, shortVariable, intVariable,
+                longVariable, floatVariable, doubleVariable, charVariable, booleanVariable);
     }
 }
