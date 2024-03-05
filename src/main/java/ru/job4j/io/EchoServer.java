@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import static java.lang.System.out;
+
 public class EchoServer {
 
     private static Map<String, String> parse(String message) {
@@ -29,12 +31,17 @@ public class EchoServer {
                     String message = input.readLine();
                     String queryString = message.split("\\s")[1].split("\\?")[1];
                     Map<String, String> params = parse(queryString);
+
                     if ("Exit".equals(params.get("msg"))) {
                         server.close();
+                    } else if ("Hello".equals(params.get("msg"))) {
+                        output.write("Hello, dear friend.".getBytes());
+                    } else {
+                        out.write("HTTP/1.1 200 What\r\n\r\n".getBytes());
                     }
 
                     for (String string = input.readLine(); string != null && !string.isEmpty(); string = input.readLine()) {
-                        System.out.println(string);
+                        out.println(string);
                     }
                     output.flush();
                 }
