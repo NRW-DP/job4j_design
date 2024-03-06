@@ -1,5 +1,8 @@
 package ru.job4j.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -7,6 +10,7 @@ import java.util.*;
 import static java.lang.System.out;
 
 public class EchoServer {
+    public static final Logger LOGGER = LoggerFactory.getLogger(EchoServer.class.getName());
 
     private static Map<String, String> parse(String message) {
         Map<String, String> params = new HashMap<>();
@@ -20,7 +24,7 @@ public class EchoServer {
         return params;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
@@ -46,6 +50,8 @@ public class EchoServer {
                     output.flush();
                 }
             }
+        } catch (IOException exception) {
+            LOGGER.error("Server or send/receive error", exception);
         }
     }
 }
