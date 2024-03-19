@@ -1,9 +1,10 @@
 package ru.job4j.serialization.json;
 
 import com.google.gson.Gson;
-
 import java.util.Arrays;
-
+    /**
+    * Represents employee data including basic information and skills.
+    */
 public class EmployeeData {
     private final boolean isActive;
     private final int employeeId;
@@ -30,28 +31,36 @@ public class EmployeeData {
                 + '}';
     }
 
+    /**
+     * Converts the object to its JSON representation.
+     *
+     * @return JSON representation of the object
+     */
     public String fromObjectToJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 
+    /**
+     * Converts JSON representation back to an EmployeeData object.
+     *
+     * @param json JSON representation of the object
+     * @return EmployeeData object restored from JSON
+     */
     public static EmployeeData fromJsonToObject(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, EmployeeData.class);
     }
 
     public static void main(String[] args) {
-        // Create EmployeeData object
         Address address = new Address("123 Main St", "CityVille", "State", "12345");
         String[] skills = {"Java", "SQL", "HTML", "CSS"};
         EmployeeData employee = new EmployeeData(true, 1001, "John Doe", address, skills);
 
-        // Convert the object to JSON
         String json = employee.fromObjectToJson();
         System.out.println("JSON representation:");
         System.out.println(json);
 
-        // Convert JSON back to an object
         EmployeeData restoredEmployee = EmployeeData.fromJsonToObject(json);
         System.out.println("\nRestored object:");
         System.out.println(restoredEmployee.fromObjectToJson());
