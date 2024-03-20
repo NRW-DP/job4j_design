@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<EmployeeDataXml>
+    <isActive>true</isActive>
+    <employeeId>1001</employeeId>
+    <fullName>John Doe</fullName>
+    <address>
+        <streetAddress>123 Main St</streetAddress>
+        <city>CityVille</city>
+        <state>State</state>
+        <postalCode>12345</postalCode>
+    </address>
+    <skills>
+        <skill>Java</skill>
+        <skill>SQL</skill>
+        <skill>HTML</skill>
+        <skill>CSS</skill>
+    </skills>
+</EmployeeDataXml>
