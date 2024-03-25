@@ -31,7 +31,27 @@ public class EmployeeData {
                 + '}';
     }
 
-    /**
+        public boolean isActive() {
+            return isActive;
+        }
+
+        public int getEmployeeId() {
+            return employeeId;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public Address getAddress() {
+            return address;
+        }
+
+        public String[] getSkills() {
+            return skills;
+        }
+
+        /**
      * Converts the object to its JSON representation.
      *
      * @return JSON representation of the object
@@ -77,6 +97,22 @@ public class EmployeeData {
             this.city = city;
             this.state = state;
             this.postalCode = postalCode;
+        }
+
+        public String getStreetAddress() {
+            return streetAddress;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public String getPostalCode() {
+            return postalCode;
         }
     }
 
