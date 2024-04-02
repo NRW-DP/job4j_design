@@ -79,6 +79,6 @@ INSERT INTO teens (name, gender) VALUES
 
 SELECT t1.name AS person1, t1.gender AS gender1, t2.name AS person2, t2.gender AS gender2
 FROM teens t1 CROSS JOIN teens t2
-WHERE t1.name < t2.name AND t1.gender != t2.gender;
+WHERE t1.name < t2.name AND t1.gender != t2.gender AND t1.name != t2.name;
 
 
