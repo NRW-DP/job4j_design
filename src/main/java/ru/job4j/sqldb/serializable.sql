@@ -1,0 +1,21 @@
+CREATE TABLE test_table (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+INSERT INTO test_table (name) VALUES ('Ivan'), ('Bob'), ('Anna');
+
+-- SESSION 1
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+UPDATE test_table SET name = 'David' WHERE id = 1;
+ROLLBACK;
+COMMIT;
+
+
+-- SESSION 2
+BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+UPDATE test_table SET name = 'Viktor' WHERE id = 1;
+ROLLBACK;
+COMMIT;
+
+SELECT * FROM test_table;
