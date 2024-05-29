@@ -8,13 +8,21 @@ import java.sql.SQLException;
 
 public class ConnectionDemo {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
         Config config = new Config("src/main/resources/app.properties");
         config.load();
 
+        String driver = config.value("db.driver");
         String url = config.value("db.url");
         String login = config.value("db.login");
         String password = config.value("db.password");
+
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Failed to load JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
 
         try (Connection connection = DriverManager.getConnection(url, login, password)) {
             DatabaseMetaData metaData = connection.getMetaData();
