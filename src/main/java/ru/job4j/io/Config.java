@@ -21,7 +21,7 @@ public class Config {
                         if (!s.trim().startsWith("#") && !s.isBlank()) {
                             String[] line = s.split("=", 2);
                             if (line.length != 2 || line[0].isEmpty() || line[1].isEmpty()) {
-                                throw new IllegalArgumentException("Отсутсвует ключ или значение : " + s);
+                                throw new IllegalArgumentException("Missing key or value : " + s);
                             }
                             values.put(line[0], line[1]);
                         }
@@ -29,7 +29,7 @@ public class Config {
             );
 
         } catch (IOException e) {
-            System.out.println("Ошибка при выводе данных из файла!");
+            System.out.println("Error when outputting data from a file!");
             e.printStackTrace();
         }
     }
@@ -50,7 +50,7 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Config("app.properties"));
+        System.out.println(new Config("src/main/resources/app.properties"));
 
     }
 }
