@@ -116,7 +116,7 @@ public class TableEditor implements AutoCloseable {
     public static void main(String[] args) {
         Properties propertiesTest = new Properties();
         try (TableEditor editor = new TableEditor(propertiesTest)) {
-            editor.loadProperties();                                        // load properties
+            editor.loadProperties();
             String tableName = "test_table";
 
             System.out.println("Creating table:");
