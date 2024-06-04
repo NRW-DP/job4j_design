@@ -1,0 +1,18 @@
+CREATE TABLE cities
+(
+    id serial primary key,
+    name text,
+    population int
+);
+SELECT * FROM cities;
+
+
+CREATE TABLE users
+(
+    id serial primary key,
+    name text,
+    email text
+);
+SELECT * FROM users;
+-- only one row was added to the table 
+-- 1 ‘Ivan Ivanov’ ‘ivanov@gmail.com’
